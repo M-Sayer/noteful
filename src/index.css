@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.folders {
+  order: 1;
+  flex-grow: 1;
+}
+
+.notes {
+  order: 2;
+  flex-grow: 2;
+}
+
+#selected {
+  background-color: rgb(1, 217, 255);
+}
