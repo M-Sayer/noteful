@@ -12,18 +12,18 @@ import FolderList from './FolderList';
 import AddFolder from './AddFolder';
 import AddNote from './AddNote';
 
+
 class App extends React.Component {
   state = {
     folders : [],
     notes : []
   }
 
-  apiUrl = process.env.API_URL;
 
   getAllData() {
     Promise.all([
-      fetch('apiUrl/folders'),
-      fetch('apiUrl/notes')
+      fetch(`https://glacial-inlet-41949.herokuapp.com/folders`),
+      fetch(`https://glacial-inlet-41949.herokuapp.com/notes`)
     ])
     .then(([foldersRes, notesRes]) => {
       return Promise.all([foldersRes.json(), notesRes.json()])
@@ -43,7 +43,7 @@ class App extends React.Component {
       folder_name : folderName
     }
 
-    fetch(`apiUrl/folders`, {
+    fetch(`https://glacial-inlet-41949.herokuapp.com/folders`, {
       method: 'POST',
       headers : {
         'Content-Type' : 'application/json'
@@ -63,7 +63,7 @@ class App extends React.Component {
       content: note.content
     }
 
-    fetch(`apiUrl/notes`, {
+    fetch(`https://glacial-inlet-41949.herokuapp.com/notes`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
@@ -78,7 +78,7 @@ class App extends React.Component {
 
   handleDelete = (noteId) => {
 
-    fetch(`apiUrl/notes/${noteId}`, {
+    fetch(`https://glacial-inlet-41949.herokuapp.com/notes/${noteId}`, {
       method : 'delete'
     })
     .then(() => this.getAllData());
