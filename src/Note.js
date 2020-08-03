@@ -14,8 +14,7 @@ export default class Note extends React.Component {
   note = () => {
     const note = this.context.notes
   .filter((item) => {
-    console.log(this.props)
-    return item.id === this.props.match.params.noteId;
+    return item.id == this.props.match.params.noteId;
   }).map((item, idx) => {
  
       return (

@@ -19,19 +19,19 @@ export default class FolderList extends React.Component {
     const List = this.context.folders.map((item, idx) => {
       let selected = '';
       if(this.props.match){
-        if(item.id === this.props.match.params.folderId){
+        if(item.id == this.props.match.params.folderId){
           selected = 'selected'
         }
       }
       
       return (
         <div id={selected} 
-          className={item.name}
+          className={item.folder_name}
           key={idx}>
           <h3
           id={item.id}
           onClick={(e) => this.changeSelected(e.target.id)}>
-          {item.name}
+          {item.folder_name}
           </h3>
         </div>
       )

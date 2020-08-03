@@ -20,10 +20,10 @@ export default class NoteList extends React.Component {
       return (
         <div
         id={item.id}
-        className={item.name} key={idx}>
+        className={item.note_name} key={idx}>
           <span>
-            <h3>{item.name}</h3>
-            <p>{item.modified}</p>
+            <h3>{item.note_name}</h3>
+            <p>{item.date_modified}</p>
             <button id={item.id} type='button' onClick={(e) => this.changeSelected(e.target.id)}>Show More</button>
             <button type='button' 
             onClick={(e) => this.handleClickDelete(e,item.id)}>Delete</button>

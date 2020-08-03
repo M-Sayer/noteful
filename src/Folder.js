@@ -20,12 +20,12 @@ export default class Folder extends React.Component {
   noteList = () => {
     const noteList = this.context.notes
     .filter((item) => {
-      return item.folderId === this.props.match.params.folderId;
+      return item.folder_id == this.props.match.params.folderId;
     }).map((item, idx) => {
       return (
-        <div className={item.name} key={idx}>
-          <h3>{item.name}</h3>
-          {item.modified}
+        <div className={item.note_name} key={idx}>
+          <h3>{item.note_name}</h3>
+          {item.date_modified}
           <p>{item.content}</p>
           <button id={item.id} type='button' onClick={(e) => this.changeSelected(e.target.id)}>Show More</button>
           <button onClick={(e) => this.handleClickDelete(e, item.id)}

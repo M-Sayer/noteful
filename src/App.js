@@ -3,13 +3,12 @@ import { Route } from 'react-router-dom';
 import Context from './Context'
 import history from './history'
 
-import dummyStore from './dummyStore';
+
 import Header from './Header';
 import HomePage from './HomePage';
 import Folder from './Folder';
 import Note from './Note';
 import FolderList from './FolderList';
-import NoteList from './NoteList';
 import AddFolder from './AddFolder';
 import AddNote from './AddNote';
 
@@ -19,10 +18,12 @@ class App extends React.Component {
     notes : []
   }
 
+  apiUrl = process.env.API_URL;
+
   getAllData() {
     Promise.all([
-      fetch('http://localhost:9090/folders'),
-      fetch('http://localhost:9090/notes')
+      fetch('apiUrl/folders'),
+      fetch('apiUrl/notes')
     ])
     .then(([foldersRes, notesRes]) => {
       return Promise.all([foldersRes.json(), notesRes.json()])
@@ -39,10 +40,10 @@ class App extends React.Component {
   handleAddNewFolder = (folderName) => {
     console.log(folderName)
     let data = {
-      name : folderName
+      folder_name : folderName
     }
 
-    fetch(`http://localhost:9090/folders`, {
+    fetch(`apiUrl/folders`, {
       method: 'POST',
       headers : {
         'Content-Type' : 'application/json'
@@ -57,12 +58,12 @@ class App extends React.Component {
 
   handleAddNewNote = (note) => {
     let noteData = {
-      name: note.name,
-      folderId: note.folderId,
+      note_name: note.name,
+      folder_id: note.folderId,
       content: note.content
     }
 
-    fetch(`http://localhost:9090/notes`, {
+    fetch(`apiUrl/notes`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
@@ -77,10 +78,10 @@ class App extends React.Component {
 
   handleDelete = (noteId) => {
 
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(`apiUrl/notes/${noteId}`, {
       method : 'delete'
     })
-    .then( () => this.getAllData());
+    .then(() => this.getAllData());
   }
 
   
@@ -104,8 +105,8 @@ class App extends React.Component {
         <Header />
         <Route 
           exact path='/'
-          render={() => (
-            <HomePage />
+          render={(props) => (
+            <HomePage {...props}/>
           )} />
         
         <Route exact path='/folders/:folderId' 
