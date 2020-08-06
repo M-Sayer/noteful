@@ -2,6 +2,7 @@ import React from 'react';
 import Context from './Context';
 import history from './history';
 import {Link} from 'react-router-dom';
+import propTypes from 'prop-types'
 
 export default class Folder extends React.Component {
   static contextType = Context;
@@ -14,8 +15,6 @@ export default class Folder extends React.Component {
     e.preventDefault();
     this.context.handleDelete(id);
   }
-  // console.log(props.notes);
-  // console.log(props.match.params.folderId);
   
   noteList = () => {
     const noteList = this.context.notes
@@ -47,5 +46,8 @@ export default class Folder extends React.Component {
         </div>
       )
     }
-    
+}
+
+Folder.propTypes = {
+  match: propTypes.object
 }

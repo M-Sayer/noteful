@@ -1,6 +1,7 @@
 import React from 'react';
 import Context from './Context';
 import history from './history';
+import propTypes from 'prop-types'
 
 export default class Note extends React.Component {
   static contextType = Context;
@@ -48,5 +49,8 @@ export default class Note extends React.Component {
       </>
     )
   }
-  
+}
+
+Note.propTypes = {
+  match: propTypes.object
 }

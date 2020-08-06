@@ -11,8 +11,10 @@ export default class AddFolder extends React.Component {
   static contextType = Context;
   
   state = {
-    folderName : '' 
+    folderName : '',
   }
+
+
 
   setFolderName = (input) => {
     this.setState({
@@ -22,7 +24,7 @@ export default class AddFolder extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.context.handleAddNewFolder(this.state.folderName);
+    this.context.handleAddNewFolder(this.state.folderName)
     this.setState({
       folderName : ''
     })
@@ -40,6 +42,7 @@ export default class AddFolder extends React.Component {
           value={this.state.folderName}  />
           <button type='submit'>Submit</button>
         </form>
+        {this.context.error && <p>something went wrong</p>}
       </div>
     )
   }

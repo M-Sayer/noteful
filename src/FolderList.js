@@ -2,6 +2,7 @@ import React from 'react';
 import history from './history';
 import Context from './Context';
 import {Link} from 'react-router-dom';
+import propTypes from 'prop-types'
 
 export default class FolderList extends React.Component {
   static contextType = Context;
@@ -52,4 +53,8 @@ export default class FolderList extends React.Component {
       </div>
     )
   }
+}
+
+FolderList.propTypes = {
+  match: propTypes.object
 }

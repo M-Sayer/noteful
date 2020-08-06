@@ -11,14 +11,19 @@ import Note from './Note';
 import FolderList from './FolderList';
 import AddFolder from './AddFolder';
 import AddNote from './AddNote';
+import ErrorBoundary from './ErrorBoundary'
 
 
 class App extends React.Component {
   state = {
     folders : [],
-    notes : []
+    notes : [],
+    error: {},
   }
 
+  setError(error) {
+    this.setState({ error })
+  }
 
   getAllData() {
     Promise.all([
@@ -33,7 +38,7 @@ class App extends React.Component {
         folders, notes
       })
     }) 
-    .catch(error => console.log(error))
+    .catch(error => this.setError(error))
   }
 
   //  POST new folder to API 
@@ -51,9 +56,9 @@ class App extends React.Component {
       body : JSON.stringify(data)
     })
       .then(response => response.json())
-      .then( () => this.getAllData());
-
-      history.goBack()
+      .then(() => this.getAllData())
+      .then(() => history.goBack())
+      .catch(error => this.setError(error))
   }
 
   handleAddNewNote = (note) => {
@@ -71,9 +76,9 @@ class App extends React.Component {
       body: JSON.stringify(noteData)
     })
     .then(response => response.json())
-    .then( () => this.getAllData())
-
-    history.goBack()
+    .then(() => this.getAllData())
+    .then(() => history.goBack())
+    .catch(error => this.setError(error))
   }
 
   handleDelete = (noteId) => {
@@ -84,12 +89,9 @@ class App extends React.Component {
     .then(() => this.getAllData());
   }
 
-  
-
   componentDidMount() {
     this.getAllData()
   }
-
 
   render() {
     return (
@@ -98,36 +100,37 @@ class App extends React.Component {
         notes : this.state.notes,
         handleAddNewFolder : this.handleAddNewFolder,
         handleAddNewNote : this.handleAddNewNote,
-        handleDelete : this.handleDelete
+        handleDelete : this.handleDelete,
+        error: this.state.error.message
       }}>
-      
-        <main className='App'>
-        <Header />
-        <Route 
-          exact path='/'
-          render={(props) => (
-            <HomePage {...props}/>
-          )} />
-        
-        <Route exact path='/folders/:folderId' 
-          render = { (props) => (
-            <div className='container'>
-              <FolderList {...props}/>
-              <Folder {...props} />
-            </div>
-          )} />
-        <Route exact path='/notes/:noteId'
-            render = {(props) => (
-              <Note {...props}/> )} />
+        <ErrorBoundary>
+          <main className='App'>
+          <Header />
+          <Route 
+            exact path='/'
+            render={(props) => (
+              <HomePage {...props}/>
+            )} />
+          
+          <Route exact path='/folders/:folderId' 
+            render = { (props) => (
+              <div className='container'>
+                <FolderList {...props}/>
+                <Folder {...props} />
+              </div>
+            )} />
+          <Route exact path='/notes/:noteId'
+              render = {(props) => (
+                <Note {...props}/> )} />
 
-        <Route exact path ='/add-new-folder'
-          component={AddFolder} />
+          <Route exact path ='/add-new-folder'
+            component={AddFolder} />
 
-        <Route exact path='/add-new-note'
-          component={AddNote} />
-        
-        </main>
-
+          <Route exact path='/add-new-note'
+            component={AddNote} />
+          
+          </main>
+        </ErrorBoundary>
       </Context.Provider>
     );
   }

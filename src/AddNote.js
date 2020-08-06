@@ -72,6 +72,7 @@ export default class AddNote extends React.Component {
           onChange={(e) => this.setContent(e.target.value)}/>
           <button type='submit'>Submit</button>
         </form>
+        {this.context.error && <p>something went wrong</p>}
       </div>
     )
   }
